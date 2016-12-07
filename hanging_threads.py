@@ -76,13 +76,13 @@ def thread2list(frame):
         frame = frame.f_back
     return l
 
-def monitor():
+def monitor(seconds_frozen, tests_per_second):
     self = get_ident()
     old_threads = {}
     while 1:
-        time.sleep(1. / TESTS_PER_SECOND)
+        time.sleep(1. / tests_per_second)
         now = time.time()
-        then = now - SECONDS_FROZEN
+        then = now - seconds_frozen
         frames = sys._current_frames()
         new_threads = {}
         for frame_id, frame in frames.items():
@@ -105,15 +105,12 @@ def print_frame_list(frame_list, frame_id):
                      '\n' + 
                      ''.join(frame_list))
 
-def start_monitoring():
-    '''After hanging SECONDS_FROZEN the stack trace of the deadlock is printed automatically.'''
-    thread = threading.Thread(target = monitor)
+
+def start_monitoring(seconds_frozen=SECONDS_FROZEN,
+                     tests_per_second=TESTS_PER_SECOND):
+    """Print the stack trace of the deadlock after hanging `seconds_frozen`"""
+    thread = threading.Thread(target=monitor, args=(seconds_frozen,
+                                                    tests_per_second))
     thread.daemon = True
     thread.start()
     return thread
-
-monitoring_thread = start_monitoring()
-
-if __name__ == '__main__':
-    SECONDS_FROZEN = 1
-    time.sleep(3) # TEST
