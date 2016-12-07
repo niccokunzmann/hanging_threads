@@ -1,4 +1,5 @@
 #!/usr/bin/python
+"""
 ## The MIT License (MIT)
 ## ---------------------
 ##
@@ -24,7 +25,6 @@
 ## FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 ## IN THE SOFTWARE.
 
-"""
 Copy this code and do
 
     import hanging_threads
@@ -56,12 +56,14 @@ import time
 __version__ = "0.0.1"
 __author__ = "Nicco Kunzmann"
 
-SECONDS_FROZEN = 10 # seconds
+
+SECONDS_FROZEN = 10  # seconds
 TESTS_PER_SECOND = 10
+
 
 def frame2string(frame):
     # from module traceback
-    lineno = frame.f_lineno # or f_lasti
+    lineno = frame.f_lineno  # or f_lasti
     co = frame.f_code
     filename = co.co_filename
     name = co.co_name
@@ -69,12 +71,14 @@ def frame2string(frame):
     line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
     return s + '\n\t' + line
 
+
 def thread2list(frame):
     l = []
     while frame:
         l.insert(0, frame2string(frame))
         frame = frame.f_back
     return l
+
 
 def monitor(seconds_frozen, tests_per_second):
     self = get_ident()
@@ -97,6 +101,7 @@ def monitor(seconds_frozen, tests_per_second):
             else:
                 new_threads[thread_id] = old_threads[thread_id]
         old_threads = new_threads
+
 
 def print_frame_list(frame_list, frame_id):
     sys.stderr.write('-' * 20 + 
