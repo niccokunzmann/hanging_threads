@@ -93,7 +93,7 @@ def monitor():
                frame_list != old_threads[thread_id][0]:
                 new_threads[thread_id] = (frame_list, now)
             elif old_threads[thread_id][1] < then:
-                print_frame_list(frame_list, frame_id)
+                print_frame_list(frame_list, thread_id)
             else:
                 new_threads[thread_id] = old_threads[thread_id]
         old_threads = new_threads
