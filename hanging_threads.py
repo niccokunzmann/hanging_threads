@@ -61,6 +61,23 @@ SECONDS_FROZEN = 10  # seconds
 TESTS_PER_SECOND = 10
 
 
+class StoppableThread(threading.Thread):
+    """
+    Thread class with a stop() method.
+
+    The thread itself has to check regularly for the is_stopped() condition.
+    """
+    def __init__(self, *args, **kwargs):
+        super(StoppableThread, self).__init__(*args, **kwargs)
+        self._stopped = False
+
+    def stop(self):
+        self._stopped = True
+
+    def is_stopped(self):
+        return self._stopped
+
+
 def frame2string(frame):
     # from module traceback
     lineno = frame.f_lineno  # or f_lasti
@@ -81,9 +98,10 @@ def thread2list(frame):
 
 
 def monitor(seconds_frozen, tests_per_second):
+    current_thread = threading.current_thread()
     self = get_ident()
     old_threads = {}
-    while 1:
+    while not current_thread.is_stopped():
         time.sleep(1. / tests_per_second)
         now = time.time()
         then = now - seconds_frozen
@@ -114,8 +132,8 @@ def print_frame_list(frame_list, frame_id):
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
                      tests_per_second=TESTS_PER_SECOND):
     """Print the stack trace of the deadlock after hanging `seconds_frozen`"""
-    thread = threading.Thread(target=monitor, args=(seconds_frozen,
-                                                    tests_per_second))
+    thread = StoppableThread(target=monitor, args=(seconds_frozen,
+                                                   tests_per_second))
     thread.daemon = True
     thread.start()
     return thread
