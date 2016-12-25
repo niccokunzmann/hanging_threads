@@ -84,7 +84,7 @@ def frame2string(frame):
     co = frame.f_code
     filename = co.co_filename
     name = co.co_name
-    s = '  File "{}", line {}, in {}'.format(filename, lineno, name)
+    s = '  File "{0}", line {1}, in {2}'.format(filename, lineno, name)
     line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
     return s + '\n\t' + line
 
@@ -123,7 +123,7 @@ def monitor(seconds_frozen, tests_per_second):
 
 def print_frame_list(frame_list, frame_id):
     sys.stderr.write('-' * 20 + 
-                     'Thread {}'.format(frame_id).center(20) +
+                     'Thread {0}'.format(frame_id).center(20) +
                      '-' * 20 +
                      '\n' + 
                      ''.join(frame_list))
