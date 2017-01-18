@@ -1,7 +1,26 @@
-# hanging_threads
-Deadlocks? Detect where your threads hang in Python with one import.
+hanging_threads
+===============
 
-## Usage
+Deadlocks? Detect where your threads hang in Python.
+
+
+Install
+-------
+
+You can install the module with pip:
+
+```
+pip install hanging_threads
+```
+
+If you are under **Windows**, you can open the command line program "cmd" and type
+
+```
+py -m pip install hanging_threads
+```
+
+Usage
+-----
 
 Starting monitoring as simple as calling the start_monitoring() function.
 
@@ -30,7 +49,8 @@ monitoring_thread.stop()
 ```
 
 
-## Useful Stackoverflow links
+Useful Stackoverflow links
+--------------------------
 
-- [GIL-deadlocks are not covered by this](http://stackoverflow.com/questions/10014481/python-threads-hang#comment33263430_17744731)
-- [Package requested, so this was created](http://stackoverflow.com/questions/3443607/how-can-i-tell-where-my-python-script-is-hanging/17744556#comment69129716_17744556)
+- `GIL-deadlocks are not covered by this <http://stackoverflow.com/questions/10014481/python-threads-hang#comment33263430_17744731>`__
+- `Package requested, so this was created <http://stackoverflow.com/questions/3443607/how-can-i-tell-where-my-python-script-is-hanging/17744556#comment69129716_17744556>`__
