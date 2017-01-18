@@ -4,6 +4,21 @@ hanging_threads
 Deadlocks? Detect where your threads hang in Python.
 
 
+Install
+-------
+
+You can install the module with pip:
+
+```
+pip install hanging_threads
+```
+
+If you are under **Windows**, you can open the command line program "cmd" and type
+
+```
+py -m pip install hanging_threads
+```
+
 Usage
 -----
 
