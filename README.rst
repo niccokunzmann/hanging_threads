@@ -3,6 +3,13 @@ hanging_threads
 
 Deadlocks? Detect where your threads hang in Python.
 
+.. image:: https://travis-ci.org/niccokunzmann/hanging_threads.svg
+   :target: https://travis-ci.org/niccokunzmann/hanging_threads
+   :alt: Build Status
+
+.. image:: https://badge.fury.io/py/hanging_threads.svg
+   :target: https://pypi.python.org/pypi/hanging_threads
+   :alt: Python Package Index
 
 Install
 -------
