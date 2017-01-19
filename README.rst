@@ -9,31 +9,33 @@ Install
 
 You can install the module with pip:
 
-```
-pip install hanging_threads
-```
+.. code:: bash
+
+    pip install hanging_threads
+
 
 If you are under **Windows**, you can open the command line program "cmd" and type
 
-```
-py -m pip install hanging_threads
-```
+.. code:: bash
+
+    py -m pip install hanging_threads
+
 
 Usage
 -----
 
 Starting monitoring as simple as calling the start_monitoring() function.
 
-```
-from hanging_threads import start_monitoring
-monitoring_thread = start_monitoring()
-```
+.. code:: python
+
+    from hanging_threads import start_monitoring
+    monitoring_thread = start_monitoring()
 
 You may also pass additional parameters.
 
-```
-monitoring_thread = start_monitoring(seconds_frozen=10, tests_per_second=10)
-```
+.. code:: python
+
+    monitoring_thread = start_monitoring(seconds_frozen=10, tests_per_second=10)
 
 The values in the example are defaults. This mean the check will happen 10
 times per second. If a thread is frozen for at least 10 seconds then the stack
@@ -44,9 +46,10 @@ Note that it makes sense to save the thread object into variable so that you or
 somebody else can stop this annoying dumps if needed.
 For example, you may want to do this in Python shell.
 
-```
-monitoring_thread.stop()
-```
+.. code:: python
+
+    monitoring_thread.stop()
+
 
 
 Useful Stackoverflow links
