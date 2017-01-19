@@ -10,7 +10,8 @@ python:
 install:
 # install from the zip file to see if files were forgotten
 - python setup.py sdist --dist-dir=dist --formats=zip
-- ( cd dist ; pip install hanging_threads-${PACKAGE_VERSION}.zip )
+- PACKAGE_VERSION="`python setup.py --version`"
+- ( cd dist ; pip install "hanging_threads-${PACKAGE_VERSION}.zip" )
 script:
 # Test relative import
 - python -m "hanging_threads"
