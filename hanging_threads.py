@@ -40,7 +40,6 @@ TESTS_PER_SECOND = 10
 class StoppableThread(threading.Thread):
     """
     Thread class with a stop() method.
-
     The thread itself has to check regularly for the is_stopped() condition.
     """
     def __init__(self, *args, **kwargs):
@@ -55,7 +54,17 @@ class StoppableThread(threading.Thread):
 
 
 def frame2string(frame):
-    # from module traceback
+    """Return info about frame
+
+    Keyword arg:
+        frame
+
+    Return string in format:
+
+    File {filename}, line {line number}, in {name of parent of code object ?}
+    Line from file at line number
+
+    """
     lineno = frame.f_lineno  # or f_lasti
     co = frame.f_code
     filename = co.co_filename
@@ -66,6 +75,7 @@ def frame2string(frame):
 
 
 def thread2list(frame):
+    """Return list of string frame representation for each fream of thread"""
     l = []
     while frame:
         l.insert(0, frame2string(frame))
@@ -74,6 +84,12 @@ def thread2list(frame):
 
 
 def monitor(seconds_frozen, tests_per_second):
+    """Monitoring thread function
+
+    Checks if thread is hanging for time defined by
+    seconds_frozen parameter in frequency
+    of test_per_second parameter
+    """
     current_thread = threading.current_thread()
     self = get_ident()
     old_threads = {}
@@ -98,6 +114,7 @@ def monitor(seconds_frozen, tests_per_second):
 
 
 def print_frame_list(frame_list, frame_id):
+    """Print the stack trace of the deadlock after hanging `seconds_frozen`"""
     sys.stderr.write('-' * 20 + 
                      'Thread {0}'.format(frame_id).center(20) +
                      '-' * 20 +
@@ -107,7 +124,11 @@ def print_frame_list(frame_list, frame_id):
 
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
                      tests_per_second=TESTS_PER_SECOND):
-    """Print the stack trace of the deadlock after hanging `seconds_frozen`"""
+    """Start monitoring thread
+
+    seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
+    tests_per_second - How much tests per second should be done for hanging threads - default(10)
+    """
     thread = StoppableThread(target=monitor, args=(seconds_frozen,
                                                    tests_per_second))
     thread.daemon = True
