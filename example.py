@@ -3,7 +3,7 @@ import time
 from hanging_threads import start_monitoring
 
 def sleep(t):
-	time.sleep(t)
+    time.sleep(t)
 
 if __name__ == '__main__':
     print("Starting the deadlocks monitoring")
