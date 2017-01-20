@@ -61,7 +61,7 @@ def frame2string(frame):
 
     Return string in format:
 
-    File {filename}, line {line number}, in {name of parent of code object ?}
+    File {file name}, line {line number}, in {name of parent of code object ?}
     Line from file at line number
 
     """
@@ -75,7 +75,7 @@ def frame2string(frame):
 
 
 def thread2list(frame):
-    """Return list of string frame representation for each fream of thread"""
+    """Return list with string frame representation of each fame of thread"""
     l = []
     while frame:
         l.insert(0, frame2string(frame))
