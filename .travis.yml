@@ -11,9 +11,29 @@ install:
 # install from the zip file to see if files were forgotten
 - python setup.py sdist --dist-dir=dist --formats=zip
 - PACKAGE_VERSION="`python setup.py --version`"
+- TAG_NAME=v$PACKAGE_VERSION
 - ( cd dist ; pip install "hanging_threads-${PACKAGE_VERSION}.zip" )
+- echo Package version $PACKAGE_VERSION with possible tag name $TAG_NAME
 script:
 # Test relative import
 - python -m "hanging_threads"
 # Test installed package import
 - ( cd / && python -m "hanging_threads" )
+# test that the tag represents the version
+# https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
+- ( if [ -n "$TRAVIS_TAG" ]; then if [ $TAG_NAME != $TRAVIS_TAG ]; then echo "This tag is for the wrong version. Got \"$TRAVIS_TAG\" expected \"$TAG_NAME\"."; exit 1; fi; fi; )
+before_deploy:
+- pip install wheel
+- python setup.py bdist_wheel
+deploy:
+# created with travis command line tool
+# https://docs.travis-ci.com/user/deployment/pypi
+# $ travis setup pypi
+  provider: pypi
+  user: niccokunzmann2
+  password:
+      secure: "dwc7byX2ekHQKzMOT8j3deLMERffIIIkMYcU6zjeW/Y9EhG+iECpm4zwKHR5ypRn9GazgUoMs3fEMS88GhW1ukKtqNzcA9Gb8fjDiAgjmW+Roo3uuoQRxFnVFVVxup0+xmOpmyIvYeDZq0/QiI0vD1Wx6mKCnfrwrWc9k4AcXSpDCCkBhIrqwbKTWx9dWsqZuELy+J1pM8+nTqFHzmwfuqVC1MuI6JCs/6vgVmRdjyYChSZvMPKuLkQp/rhIzYDYk4ZHDKrAHTQSQfkqAFadeb/BPldVk2Fr21p+KHKgPrhOayc4YQ+Dd6kRaB+yWQAbJJCCRgvpyqAofN3jJomekoEJXuvJvL22Ry9esBuD5GA9Qydt7+qaiRfZgUmxxPxOGYPvV813ghrk2m7dom+fMQmBN22+ajdHzQlpA8jQ1yeUiJXgGn/hkR2Wpbp6xRj3bjjK7IuZCqNGrskN4QTaypYKjXLujgFTZeXL15RpxAA9b638xYG1nIhcugKVsH61ahfg+6Vjv6sUOdqK495D20xMIBW0J0Zo5JTyd3/oQVs8fuCX+96g+eMNeoIplUBzcUyBoXb/q3EArh9WVCAVGV398zS19l/w8lh+eobS02eg5Za6WA6K+PpeIi3meGb0ClEq8zb21Or16s2+La/STeM6zEKMVPtWEo4NI7IHIO4="
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: niccokunzmann/hanging_threads
