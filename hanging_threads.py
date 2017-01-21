@@ -124,7 +124,7 @@ def print_frame_list(frame_list, frame_id):
 
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
                      tests_per_second=TESTS_PER_SECOND):
-    """Start monitoring thread
+    """Start monitoring threads
 
     seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
     tests_per_second - How much tests per second should be done for hanging threads - default(10)
