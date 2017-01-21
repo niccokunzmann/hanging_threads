@@ -37,6 +37,20 @@ SECONDS_FROZEN = 10  # seconds
 TESTS_PER_SECOND = 10
 
 
+def start_monitoring(seconds_frozen=SECONDS_FROZEN,
+                     tests_per_second=TESTS_PER_SECOND):
+    """Start monitoring threads
+
+    seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
+    tests_per_second - How much tests per second should be done for hanging threads - default(10)
+    """
+    thread = StoppableThread(target=monitor, args=(seconds_frozen,
+                                                   tests_per_second))
+    thread.daemon = True
+    thread.start()
+    return thread
+
+
 class StoppableThread(threading.Thread):
     """
     Thread class with a stop() method.
@@ -51,44 +65,6 @@ class StoppableThread(threading.Thread):
 
     def is_stopped(self):
         return self._stopped
-
-
-def get_current_frames():
-    """Return current threads prepared for further processing"""
-    return dict(
-        (thread_id, {'frame': thread2list(frame), 'time': None})
-        for thread_id, frame in sys._current_frames().items()
-    )
-
-
-def frame2string(frame):
-    """Return info about frame
-
-    Keyword arg:
-        frame
-
-    Return string in format:
-
-    File {file name}, line {line number}, in {name of parent of code object ?}
-    Line from file at line number
-
-    """
-    lineno = frame.f_lineno  # or f_lasti
-    co = frame.f_code
-    filename = co.co_filename
-    name = co.co_name
-    s = '  File "{0}", line {1}, in {2}'.format(filename, lineno, name)
-    line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
-    return s + '\n\t' + line
-
-
-def thread2list(frame):
-    """Return list with string frame representation of each frame of thread"""
-    l = []
-    while frame:
-        l.insert(0, frame2string(frame))
-        frame = frame.f_back
-    return l
 
 
 def monitor(seconds_frozen, tests_per_second):
@@ -141,6 +117,44 @@ def monitor(seconds_frozen, tests_per_second):
         old_threads = new_threads
 
 
+def get_current_frames():
+    """Return current threads prepared for further processing"""
+    return dict(
+        (thread_id, {'frame': thread2list(frame), 'time': None})
+        for thread_id, frame in sys._current_frames().items()
+    )
+
+
+def frame2string(frame):
+    """Return info about frame
+
+    Keyword arg:
+        frame
+
+    Return string in format:
+
+    File {file name}, line {line number}, in {name of parent of code object ?}
+    Line from file at line number
+
+    """
+    lineno = frame.f_lineno  # or f_lasti
+    co = frame.f_code
+    filename = co.co_filename
+    name = co.co_name
+    s = '  File "{0}", line {1}, in {2}'.format(filename, lineno, name)
+    line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
+    return s + '\n\t' + line
+
+
+def thread2list(frame):
+    """Return list with string frame representation of each frame of thread"""
+    l = []
+    while frame:
+        l.insert(0, frame2string(frame))
+        frame = frame.f_back
+    return l
+
+
 def log_hanged_thread(thread_id, frame):
     """Print the stack trace of the deadlock after hanging `seconds_frozen`"""
     write_log('Thread {0} hangs '.format(thread_id), ''.join(frame))
@@ -158,17 +172,3 @@ def write_log(title, message=''):
     sys.stderr.write(''.join([
         title.center(40).center(60, '-'), '\n', message
     ]))
-
-
-def start_monitoring(seconds_frozen=SECONDS_FROZEN,
-                     tests_per_second=TESTS_PER_SECOND):
-    """Start monitoring threads
-
-    seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
-    tests_per_second - How much tests per second should be done for hanging threads - default(10)
-    """
-    thread = StoppableThread(target=monitor, args=(seconds_frozen,
-                                                   tests_per_second))
-    thread.daemon = True
-    thread.start()
-    return thread
