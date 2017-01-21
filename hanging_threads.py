@@ -34,18 +34,18 @@ __author__ = "Nicco Kunzmann"
 
 
 SECONDS_FROZEN = 10  # seconds
-TESTS_PER_SECOND = 10
+TEST_INTERVAL = 100 #milliseconds
 
 
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
-                     tests_per_second=TESTS_PER_SECOND):
+                     test_interval=TEST_INTERVAL):
     """Start monitoring threads
 
     seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
-    tests_per_second - How much tests per second should be done for hanging threads - default(10)
+    tests_interval - Sleep time of monitoring thread (in milliseconds) - default(100)
     """
     thread = StoppableThread(target=monitor, args=(seconds_frozen,
-                                                   tests_per_second))
+                                                   test_interval))
     thread.daemon = True
     thread.start()
     return thread
@@ -67,12 +67,11 @@ class StoppableThread(threading.Thread):
         return self._stopped
 
 
-def monitor(seconds_frozen, tests_per_second):
+def monitor(seconds_frozen, test_interval):
     """Monitoring thread function
 
     Checks if thread is hanging for time defined by
-    seconds_frozen parameter in frequency
-    of test_per_second parameter
+    seconds_frozen parameter every test_interval milliseconds
     """
     current_thread = threading.current_thread()
     hanging_threads = set()
@@ -87,7 +86,7 @@ def monitor(seconds_frozen, tests_per_second):
                 log_died_thread(thread_id)
 
         # Process live threads.
-        time.sleep(1. / tests_per_second)
+        time.sleep(test_interval/1000)
         now = time.time()
         then = now - seconds_frozen
         for thread_id, thread_data in new_threads.items():
