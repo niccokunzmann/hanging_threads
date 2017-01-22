@@ -5,18 +5,36 @@ Copy this code and do
 
     import hanging_threads
 
-If a thread is at the same place for SECONDS_FROZEN then the stacktrace is printed.
+If a thread is at the same place for SECONDS_FROZEN then the
+stacktrace is printed.
 
-This script prints
+When example.py is ran, output is the following:
 
---------------------    Thread 6628     --------------------
-  File "hanging_threads.py", line 70, in <module>
-        time.sleep(3) # TEST
---------------------    Thread 6628     --------------------
-  File "hanging_threads.py", line 70, in <module>
-        time.sleep(3) # TEST
+	Starting the deadlocks monitoring
+	Sleep 3 seconds in custom func
+	----------     Thread 140536184002304 hangs       ----------
+	  File "example.py", line 12, in <module>
+		sleep(3)
+	  File "example.py", line 6, in sleep
+		time.sleep(t)
+	Sleep 3 seconds
+	----------     Thread 140536184002304 awaked      ----------
+	----------     Thread 140536184002304 hangs       ----------
+	  File "example.py", line 14, in <module>
+		time.sleep(3)
+	Sleep 3 seconds
+	----------     Thread 140536184002304 awaked      ----------
+	----------     Thread 140536184002304 hangs       ----------
+	  File "example.py", line 16, in <module>
+		time.sleep(3)
+	Stopping the deadlocks monitoring
+	Sleep 3 seconds
+	Sleep 3 seconds
+	Exiting
+
 
 """
+
 import sys
 import threading
 import linecache
@@ -34,8 +52,12 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
                      test_interval=TEST_INTERVAL):
     """Start monitoring for hanging threads.
 
-    seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
-    tests_interval - Sleep time of monitoring thread (in milliseconds) - default(100)
+    seconds_frozen - How much time should thread hang to activate
+    printing stack trace - default(10)
+
+    tests_interval - Sleep time of monitoring thread (in milliseconds) 
+    - default(100)
+
     """
     thread = StoppableThread(target=monitor, args=(seconds_frozen,
                                                    test_interval))
@@ -47,7 +69,8 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
 class StoppableThread(threading.Thread):
     """Thread class with a stop() method.
 
-    The thread itself has to check regularly for the is_stopped() condition.
+    The thread itself has to check regularly for the is_stopped() 
+    condition.
     """
     def __init__(self, *args, **kwargs):
         super(StoppableThread, self).__init__(*args, **kwargs)
@@ -110,7 +133,10 @@ def monitor(seconds_frozen, test_interval):
 
 
 def get_current_frames():
-    """Return current threads prepared for further processing."""
+    """Return current threads prepared for 
+    further processing.
+
+    """
     return dict(
         (thread_id, {'frame': thread2list(frame), 'time': None})
         for thread_id, frame in sys._current_frames().items()
@@ -125,7 +151,8 @@ def frame2string(frame):
 
     Return string in format:
 
-    File {file name}, line {line number}, in {name of parent of code object ?}
+    File {file name}, line {line number}, in 
+    {name of parent of code object} {newline}
     Line from file at line number
 
     """
@@ -139,7 +166,10 @@ def frame2string(frame):
 
 
 def thread2list(frame):
-    """Return list with string frame representation of each frame of thread."""
+    """Return list with string frame representation of each frame of 
+    thread.
+
+    """
     l = []
     while frame:
         l.insert(0, frame2string(frame))
@@ -148,17 +178,26 @@ def thread2list(frame):
 
 
 def log_hanged_thread(thread_id, frame):
-    """Print the stack trace of the deadlock after hanging `seconds_frozen`."""
+    """Print the stack trace of the deadlock after hanging 
+    `seconds_frozen`.
+
+    """
     write_log('Thread {0} hangs '.format(thread_id), ''.join(frame))
 
 
 def log_awaked_thread(thread_id):
-    """Print message about awaked thread that was considered as hanging."""
+    """Print message about awaked thread that was considered as 
+    hanging.
+
+    """
     write_log('Thread {0} awaked'.format(thread_id))
 
 
 def log_died_thread(thread_id):
-    """Print message about died thread that was considered as hanging."""
+    """Print message about died thread that was considered as 
+    hanging.
+
+    """
     write_log('Thread {0} died  '.format(thread_id))
 
 
