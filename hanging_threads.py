@@ -45,8 +45,8 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
 
 
 class StoppableThread(threading.Thread):
-    """
-    Thread class with a stop() method.
+    """Thread class with a stop() method
+
     The thread itself has to check regularly for the is_stopped() condition.
     """
     def __init__(self, *args, **kwargs):
