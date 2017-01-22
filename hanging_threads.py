@@ -19,13 +19,6 @@ This script prints
 """
 import sys
 import threading
-try:
-    try:
-        from threading import _get_ident as get_ident
-    except ImportError:
-        from threading import get_ident
-except ImportError:
-    from thread import get_ident
 import linecache
 import time
 
