@@ -153,14 +153,17 @@ def log_hanged_thread(thread_id, frame):
 
 
 def log_awaked_thread(thread_id):
+    """Print notification about awaked thread that was considered as hanging"""
     write_log('Thread {0} awaked'.format(thread_id))
 
 
 def log_died_thread(thread_id):
+    """Print notification about died thread that was considered as hanging"""
     write_log('Thread {0} died  '.format(thread_id))
 
 
 def write_log(title, message=''):
+    """Write formatted log message to stderr"""
     sys.stderr.write(''.join([
         title.center(40).center(60, '-'), '\n', message
     ]))
