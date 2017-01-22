@@ -57,8 +57,8 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
 
     tests_interval - Sleep time of monitoring thread (in milliseconds) 
     - default(100)
-
     """
+    
     thread = StoppableThread(target=monitor, args=(seconds_frozen,
                                                    test_interval))
     thread.daemon = True
@@ -135,7 +135,6 @@ def monitor(seconds_frozen, test_interval):
 def get_current_frames():
     """Return current threads prepared for 
     further processing.
-
     """
     return dict(
         (thread_id, {'frame': thread2list(frame), 'time': None})
@@ -154,8 +153,8 @@ def frame2string(frame):
     File {file name}, line {line number}, in 
     {name of parent of code object} {newline}
     Line from file at line number
-
     """
+
     lineno = frame.f_lineno  # or f_lasti
     co = frame.f_code
     filename = co.co_filename
@@ -168,7 +167,6 @@ def frame2string(frame):
 def thread2list(frame):
     """Return list with string frame representation of each frame of 
     thread.
-
     """
     l = []
     while frame:
@@ -180,7 +178,6 @@ def thread2list(frame):
 def log_hanged_thread(thread_id, frame):
     """Print the stack trace of the deadlock after hanging 
     `seconds_frozen`.
-
     """
     write_log('Thread {0} hangs '.format(thread_id), ''.join(frame))
 
@@ -188,7 +185,6 @@ def log_hanged_thread(thread_id, frame):
 def log_awaked_thread(thread_id):
     """Print message about awaked thread that was considered as 
     hanging.
-
     """
     write_log('Thread {0} awaked'.format(thread_id))
 
@@ -196,13 +192,13 @@ def log_awaked_thread(thread_id):
 def log_died_thread(thread_id):
     """Print message about died thread that was considered as 
     hanging.
-
     """
     write_log('Thread {0} died  '.format(thread_id))
 
 
 def write_log(title, message=''):
     """Write formatted log message to stderr."""
+
     sys.stderr.write(''.join([
         title.center(40).center(60, '-'), '\n', message
     ]))
