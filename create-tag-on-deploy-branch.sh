@@ -69,7 +69,9 @@ cat "$file" | grep -F "__version__"
 
 echo "(5) Create git tag `new_tag`"
 git add "$file"
-git commit -m"automatic commit by `whoami`@`hostname` for tag `new_tag` $TRAVIS_BUILD_NUMBER" --author="`whoami` <`whoami`@`hostname`>" || true
+git config user.email || git config user.email "travis@travis-ci.org"
+git config user.name || git config user.name "Travis CI"
+git commit -m"automatic commit by `whoami`@`hostname` for tag `new_tag` $TRAVIS_BUILD_NUMBER"
 git tag "`new_tag`"
 
 echo "(6) pushing back to travis"
