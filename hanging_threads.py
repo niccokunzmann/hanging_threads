@@ -27,7 +27,7 @@ __author__ = "Nicco Kunzmann"
 
 
 SECONDS_FROZEN = 10  # seconds
-TEST_INTERVAL = 100 #milliseconds
+TEST_INTERVAL = 100  # milliseconds
 
 
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
