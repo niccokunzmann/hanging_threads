@@ -69,9 +69,9 @@ def frame2string(frame):
     co = frame.f_code
     filename = co.co_filename
     name = co.co_name
-    s = '  File "{0}", line {1}, in {2}'.format(filename, lineno, name)
+    s = '\tFile "{0}", line {1}, in {2}'.format(filename, lineno, name)
     line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
-    return s + '\n\t' + line
+    return s + '\n\t\t' + line
 
 
 def thread2list(frame):
