@@ -19,13 +19,6 @@ This script prints
 """
 import sys
 import threading
-try:
-    try:
-        from threading import _get_ident as get_ident
-    except ImportError:
-        from threading import get_ident
-except ImportError:
-    from thread import get_ident
 import linecache
 import time
 
@@ -34,12 +27,12 @@ __author__ = "Nicco Kunzmann"
 
 
 SECONDS_FROZEN = 10  # seconds
-TEST_INTERVAL = 100 #milliseconds
+TEST_INTERVAL = 100  # milliseconds
 
 
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
                      test_interval=TEST_INTERVAL):
-    """Start monitoring threads
+    """Start monitoring for hanging threads.
 
     seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
     tests_interval - Sleep time of monitoring thread (in milliseconds) - default(100)
@@ -52,8 +45,8 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
 
 
 class StoppableThread(threading.Thread):
-    """
-    Thread class with a stop() method.
+    """Thread class with a stop() method.
+
     The thread itself has to check regularly for the is_stopped() condition.
     """
     def __init__(self, *args, **kwargs):
@@ -68,10 +61,10 @@ class StoppableThread(threading.Thread):
 
 
 def monitor(seconds_frozen, test_interval):
-    """Monitoring thread function
+    """Monitoring thread function.
 
     Checks if thread is hanging for time defined by
-    seconds_frozen parameter every test_interval milliseconds
+    ``seconds_frozen`` parameter every ``test_interval`` milliseconds.
     """
     current_thread = threading.current_thread()
     hanging_threads = set()
@@ -117,7 +110,7 @@ def monitor(seconds_frozen, test_interval):
 
 
 def get_current_frames():
-    """Return current threads prepared for further processing"""
+    """Return current threads prepared for further processing."""
     return dict(
         (thread_id, {'frame': thread2list(frame), 'time': None})
         for thread_id, frame in sys._current_frames().items()
@@ -125,7 +118,7 @@ def get_current_frames():
 
 
 def frame2string(frame):
-    """Return info about frame
+    """Return info about frame.
 
     Keyword arg:
         frame
@@ -146,7 +139,7 @@ def frame2string(frame):
 
 
 def thread2list(frame):
-    """Return list with string frame representation of each frame of thread"""
+    """Return list with string frame representation of each frame of thread."""
     l = []
     while frame:
         l.insert(0, frame2string(frame))
@@ -155,19 +148,22 @@ def thread2list(frame):
 
 
 def log_hanged_thread(thread_id, frame):
-    """Print the stack trace of the deadlock after hanging `seconds_frozen`"""
+    """Print the stack trace of the deadlock after hanging `seconds_frozen`."""
     write_log('Thread {0} hangs '.format(thread_id), ''.join(frame))
 
 
 def log_awaked_thread(thread_id):
+    """Print message about awaked thread that was considered as hanging."""
     write_log('Thread {0} awaked'.format(thread_id))
 
 
 def log_died_thread(thread_id):
+    """Print message about died thread that was considered as hanging."""
     write_log('Thread {0} died  '.format(thread_id))
 
 
 def write_log(title, message=''):
+    """Write formatted log message to stderr."""
     sys.stderr.write(''.join([
         title.center(40).center(60, '-'), '\n', message
     ]))
