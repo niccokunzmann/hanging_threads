@@ -41,3 +41,4 @@ deploy:
   on:
     # only create a new tag on one python version
     condition: $TRAVIS_PYTHON_VERSION == 3.5
+    all_branches: true
