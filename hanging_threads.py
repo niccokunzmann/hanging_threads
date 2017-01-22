@@ -32,7 +32,7 @@ TEST_INTERVAL = 100  # milliseconds
 
 def start_monitoring(seconds_frozen=SECONDS_FROZEN,
                      test_interval=TEST_INTERVAL):
-    """Start monitoring threads.
+    """Start monitoring for hanging threads.
 
     seconds_frozen - How much time should thread hang to activate printing stack trace - default(10)
     tests_interval - Sleep time of monitoring thread (in milliseconds) - default(100)
@@ -64,7 +64,7 @@ def monitor(seconds_frozen, test_interval):
     """Monitoring thread function.
 
     Checks if thread is hanging for time defined by
-    seconds_frozen parameter every test_interval milliseconds.
+    ``seconds_frozen`` parameter every ``test_interval`` milliseconds.
     """
     current_thread = threading.current_thread()
     hanging_threads = set()
