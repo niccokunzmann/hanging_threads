@@ -86,7 +86,7 @@ def monitor(seconds_frozen, test_interval):
                 log_died_thread(thread_id)
 
         # Process live threads.
-        time.sleep(test_interval/1000)
+        time.sleep(test_interval/1000.)
         now = time.time()
         then = now - seconds_frozen
         for thread_id, thread_data in new_threads.items():
