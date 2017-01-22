@@ -136,7 +136,6 @@ def get_current_frames():
     """Return current threads prepared for 
     further processing.
     """
-
     return dict(
         (thread_id, {'frame': thread2list(frame), 'time': None})
         for thread_id, frame in sys._current_frames().items()
@@ -160,16 +159,15 @@ def frame2string(frame):
     co = frame.f_code
     filename = co.co_filename
     name = co.co_name
-    s = '  File "{0}", line {1}, in {2}'.format(filename, lineno, name)
+    s = '\tFile "{0}", line {1}, in {2}'.format(filename, lineno, name)
     line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
-    return s + '\n\t' + line
+    return s + '\n\t\t' + line
 
 
 def thread2list(frame):
     """Return list with string frame representation of each frame of 
     thread.
     """
-
     l = []
     while frame:
         l.insert(0, frame2string(frame))
@@ -181,7 +179,6 @@ def log_hanged_thread(thread_id, frame):
     """Print the stack trace of the deadlock after hanging 
     `seconds_frozen`.
     """
-
     write_log('Thread {0} hangs '.format(thread_id), ''.join(frame))
 
 
@@ -189,7 +186,6 @@ def log_awaked_thread(thread_id):
     """Print message about awaked thread that was considered as 
     hanging.
     """
-
     write_log('Thread {0} awaked'.format(thread_id))
 
 
@@ -197,7 +193,6 @@ def log_died_thread(thread_id):
     """Print message about died thread that was considered as 
     hanging.
     """
-
     write_log('Thread {0} died  '.format(thread_id))
 
 
