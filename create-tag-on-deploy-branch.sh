@@ -11,9 +11,22 @@ echo "(1) check if we are on a deploy branch of the form vNUMBER.NUMBER"
 
 # get current branch name
 # http://stackoverflow.com/a/1418022/367456
-current_branch="`git rev-parse --abbrev-ref HEAD`"
+if [ "$TRAVIS_PULL_REQUEST" == "false" ] || [ -z "$TRAVIS_PULL_REQUEST" ]
+then
+  echo "This is not a pull request."
+  if [ -z "$TRAVIS_BRANCH" ]
+  then
+    echo "This seems to be executed locally and not on travis. Getting current branch."
+    current_branch="`git rev-parse --abbrev-ref HEAD`"
+  else
+    echo "We are on travis and can use the environment variables to know the branch."
+    current_branch="$TRAVIS_BRANCH"
+  fi
+else
+  echo "This is a pull request. We can not build from a pull request."
+  exit 0
+fi
 
-# TODO: test for pull-requests from deploy branches
 if echo "$current_branch" | grep -qE '^v[[:digit:]]+\.[[:digit:]]+$'
 then
   echo "Branch $current_branch is a deploy branch."
