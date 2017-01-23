@@ -29,7 +29,7 @@ except ImportError:
 import linecache
 import time
 
-__version__ = "development"
+__version__ = "1.1.2"
 __author__ = "Nicco Kunzmann"
 
 
