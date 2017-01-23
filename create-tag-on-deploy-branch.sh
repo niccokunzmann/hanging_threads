@@ -64,7 +64,7 @@ echo "The new tag is `new_tag`"
 
 echo "(4) change version of hanging_threads.py"
 file="hanging_threads.py"
-sed -ri "0,/__version__\\s*=\\s*(\"[^\"]*\"|'[^']*')/ s//__version__ = \"`new_tag`\"/" "$file"
+sed -ri "0,/__version__\\s*=\\s*(\"[^\"]*\"|'[^']*')/ s//__version__ = \"`new_tag | sed 's/^v//'`\"/" "$file"
 cat "$file" | grep -F "__version__"
 
 echo "(5) Create git tag `new_tag`"
