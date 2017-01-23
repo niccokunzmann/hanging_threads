@@ -40,7 +40,7 @@ import threading
 import linecache
 import time
 
-__version__ = "development"
+__version__ = "v2.0.1"
 __author__ = "Nicco Kunzmann"
 
 
