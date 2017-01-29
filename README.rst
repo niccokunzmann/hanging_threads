@@ -47,7 +47,8 @@ You may also pass additional parameters.
 The values in the example are defaults. This mean the check will happen 10
 times per second. If a thread is frozen for at least 10 seconds then the stack
 is dumped into standard error stream. This happens again every 10 seconds
-while there is no changes in the stack registered during checks.
+while there is no changes in the stack registered during checks. Checks are done 
+in intervals of 100ms.
 
 Note that it makes sense to save the thread object into variable so that you or
 somebody else can stop this annoying dumps if needed.
