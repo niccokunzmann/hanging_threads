@@ -42,12 +42,13 @@ You may also pass additional parameters.
 
 .. code:: python
 
-    monitoring_thread = start_monitoring(seconds_frozen=10, tests_per_second=10)
+    monitoring_thread = start_monitoring(seconds_frozen=10, test_interval=100)
 
 The values in the example are defaults. This mean the check will happen 10
 times per second. If a thread is frozen for at least 10 seconds then the stack
 is dumped into standard error stream. This happens again every 10 seconds
-while there is no changes in the stack registered during checks.
+while there is no changes in the stack registered during checks. Checks are done in
+intervals of 100ms.
 
 Note that it makes sense to save the thread object into variable so that you or
 somebody else can stop this annoying dumps if needed.
