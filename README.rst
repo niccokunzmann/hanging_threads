@@ -11,17 +11,17 @@ Deadlocks? Detect where your threads hang in Python.
    :target: https://pypi.python.org/pypi/hanging_threads
    :alt: Python Package Index
 
-Install
+Installation
 -------
 
-You can install the module with pip:
+Install the module with pip:
 
 .. code:: bash
 
     pip install hanging_threads
 
 
-If you are under **Windows**, you can open the command line program "cmd" and type
+If installing with **Windows**, open the command line program "cmd" and type
 
 .. code:: bash
 
@@ -31,7 +31,7 @@ If you are under **Windows**, you can open the command line program "cmd" and ty
 Usage
 -----
 
-Starting monitoring as simple as calling the start_monitoring() function.
+Monitoring is as simple as calling the start_monitoring() function.
 
 .. code:: python
 
@@ -51,8 +51,8 @@ while there is no changes in the stack registered during checks. Checks are done
 intervals of 100ms.
 
 Note that it makes sense to save the thread object into variable so that you or
-somebody else can stop this annoying dumps if needed.
-For example, you may want to do this in Python shell.
+somebody else can stop the annoying dumps if needed.
+For example, you may want to do this in the Python shell.
 
 .. code:: python
 
