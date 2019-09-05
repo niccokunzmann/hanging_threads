@@ -97,9 +97,9 @@ def monitor(seconds_frozen, test_interval):
         new_threads = get_current_frames()
 
         # Report died threads.
-        for thread_id in old_threads.keys():
+        for thread_id, thread_data in old_threads.items():
             if thread_id not in new_threads and thread_id in hanging_threads:
-                log_died_thread(thread_id)
+                log_died_thread(thread_data)
 
         # Process live threads.
         time.sleep(test_interval/1000.)
@@ -117,7 +117,7 @@ def monitor(seconds_frozen, test_interval):
                 # If the thread was hanging then report awaked thread.
                 if thread_id in hanging_threads:
                     hanging_threads.remove(thread_id)
-                    log_awaked_thread(thread_id)
+                    log_awaked_thread(thread_data)
             else:
                 # If stack is not changed then keep old time.
                 last_change_time = old_threads[thread_id]['time']
@@ -128,7 +128,7 @@ def monitor(seconds_frozen, test_interval):
                     # Gotcha!
                     hanging_threads.add(thread_id)
                     # Report the hanged thread.
-                    log_hanged_thread(thread_id, frame)
+                    log_hanged_thread(thread_data, frame)
         old_threads = new_threads
 
 
@@ -136,8 +136,15 @@ def get_current_frames():
     """Return current threads prepared for 
     further processing.
     """
+    threads = {thread.ident: thread for thread in threading.enumerate()}
     return dict(
-        (thread_id, {'frame': thread2list(frame), 'time': None})
+        (thread_id, {
+                'frame': thread2list(frame),
+                'time': None,
+                'id': thread_id,
+                'name': threads[thread_id].name,
+                'object': threads[thread_id]
+            })
         for thread_id, frame in sys._current_frames().items()
     )
 
@@ -175,25 +182,28 @@ def thread2list(frame):
     return l
 
 
-def log_hanged_thread(thread_id, frame):
-    """Print the stack trace of the deadlock after hanging 
+def threadcaption(thread_data):
+    return 'Thread {id} "{name}"'.format(**thread_data)
+
+def log_hanged_thread(thread_data, frame):
+    """Print the stack trace of the deadlock after hanging
     `seconds_frozen`.
     """
-    write_log('Thread {0} hangs '.format(thread_id), ''.join(frame))
+    write_log('{0} hangs '.format(threadcaption(thread_data)), ''.join(frame))
 
 
-def log_awaked_thread(thread_id):
+def log_awaked_thread(thread_data):
     """Print message about awaked thread that was considered as 
     hanging.
     """
-    write_log('Thread {0} awaked'.format(thread_id))
+    write_log('{0} awaked'.format(threadcaption(thread_data)))
 
 
-def log_died_thread(thread_id):
+def log_died_thread(thread_data):
     """Print message about died thread that was considered as 
     hanging.
     """
-    write_log('Thread {0} died  '.format(thread_id))
+    write_log('{0} died  '.format(threadcaption(thread_data)))
 
 
 def write_log(title, message=''):
