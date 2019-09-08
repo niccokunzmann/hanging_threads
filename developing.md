@@ -42,6 +42,18 @@ Create a pull-request to the branch of the old version:
 Deployment
 ----------
 
+### Short
+
+Merge [`master` into `v2.0`](https://github.com/niccokunzmann/hanging_threads/compare/v2.0...master).
+
+```sh
+git checkout v2.0
+git pull
+./create-tag-on-deploy-branch.sh origin
+```
+
+### Long
+
 We have branches for versions such as `v2.1`.
 They have the form `vNUMBER.NUMBER`
 They are the base branches for deployment.
