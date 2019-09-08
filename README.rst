@@ -12,7 +12,7 @@ Deadlocks? Detect where your threads hang in Python.
    :alt: Python Package Index
 
 Installation
--------
+------------
 
 Install the module with pip:
 
