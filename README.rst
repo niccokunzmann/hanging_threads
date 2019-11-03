@@ -60,8 +60,10 @@ For example, you may want to do this in the Python shell.
 
 
 
-Useful Stackoverflow links
---------------------------
+Further Reading
+---------------
 
 - `GIL-deadlocks are not covered by this <http://stackoverflow.com/questions/10014481/python-threads-hang#comment33263430_17744731>`__
 - `Package requested, so this was created <http://stackoverflow.com/questions/3443607/how-can-i-tell-where-my-python-script-is-hanging/17744556#comment69129716_17744556>`__
+- `faulthandler since Python 3.3 allows dumping stack traces <https://docs.python.org/3/library/faulthandler.html>`__
+- `Discussion and the source GitHub Gist <https://gist.github.com/niccokunzmann/6038331>`__
