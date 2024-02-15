@@ -169,7 +169,13 @@ def frame2string(frame):
     filename = co.co_filename
     name = co.co_name
     s = '\tFile "{0}", line {1}, in {2}'.format(filename, lineno, name)
-    line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
+    try:
+        line = linecache.getline(filename, lineno, frame.f_globals).lstrip()
+    except Exception as e:
+        ## TypeError: '<=' not supported between instances of 'int' and 'NoneType'
+        line = ''
+        print(e)
+
     return s + '\n\t\t' + line
 
 
