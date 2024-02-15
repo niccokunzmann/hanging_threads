@@ -6,16 +6,15 @@ How to contribute
 
 You can contribute to the latest version and fix bugs in old versions.
 
-Latest Version
-~~~~~~~~~~~~~~
+### Latest Version
 
 This works as usually: You can create a pull-request to the master branch.
 As soon as the master branch gets merged into the latest deploy branch,
 your fix will be [live][pypi].
 Deploy branches are named like versions. Example: `v2.0`.
 
-Old Versions
-~~~~~~~~~~~~
+### Old Versions
+
 Mostly, you would like to contribute to the latest version and the master
 branch.
 If you really think that a fix is required to on old version of the software,
