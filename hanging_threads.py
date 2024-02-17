@@ -40,7 +40,7 @@ import threading
 import linecache
 import time
 
-__version__ = "2.0.6"
+__version__ = "2.0.7"
 __author__ = "Nicco Kunzmann"
 
 
@@ -55,10 +55,10 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
     seconds_frozen - How much time should thread hang to activate
     printing stack trace - default(10)
 
-    tests_interval - Sleep time of monitoring thread (in milliseconds) 
+    tests_interval - Sleep time of monitoring thread (in milliseconds)
     - default(100)
     """
-    
+
     thread = StoppableThread(target=monitor, args=(seconds_frozen,
                                                    test_interval))
     thread.daemon = True
@@ -69,7 +69,7 @@ def start_monitoring(seconds_frozen=SECONDS_FROZEN,
 class StoppableThread(threading.Thread):
     """Thread class with a stop() method.
 
-    The thread itself has to check regularly for the is_stopped() 
+    The thread itself has to check regularly for the is_stopped()
     condition.
     """
     def __init__(self, *args, **kwargs):
@@ -133,7 +133,7 @@ def monitor(seconds_frozen, test_interval):
 
 
 def get_current_frames():
-    """Return current threads prepared for 
+    """Return current threads prepared for
     further processing.
     """
     threads = {thread.ident: thread for thread in threading.enumerate()}
@@ -159,7 +159,7 @@ def frame2string(frame):
 
     Return string in format:
 
-    File {file name}, line {line number}, in 
+    File {file name}, line {line number}, in
     {name of parent of code object} {newline}
     Line from file at line number
     """
@@ -180,7 +180,7 @@ def frame2string(frame):
 
 
 def thread2list(frame):
-    """Return list with string frame representation of each frame of 
+    """Return list with string frame representation of each frame of
     thread.
     """
     l = []
@@ -201,14 +201,14 @@ def log_hanged_thread(thread_data, frame):
 
 
 def log_awaked_thread(thread_data):
-    """Print message about awaked thread that was considered as 
+    """Print message about awaked thread that was considered as
     hanging.
     """
     write_log('{0} awaked'.format(threadcaption(thread_data)))
 
 
 def log_died_thread(thread_data):
-    """Print message about died thread that was considered as 
+    """Print message about died thread that was considered as
     hanging.
     """
     write_log('{0} died  '.format(threadcaption(thread_data)))

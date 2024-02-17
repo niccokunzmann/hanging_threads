@@ -68,12 +68,12 @@ New Releases
 
 To release a new version:
 
-1. Edit the ``README.md`` file in the Changelog Section and add the changes.
+1. Edit the ``README.md`` file in the Changelog Section and add the changes. Increase the ``hanging_threads.py`` version.
 
    .. code:: bash
 
-       git add README.md
-       git commit -m"Modify changelog for release"
+       git add README.rst hanging_threads.py
+       git commit -m"v2.0.7"
        git push
 
 2. Create a tag for the version.
