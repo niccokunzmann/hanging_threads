@@ -58,6 +58,32 @@ For example, you may want to do this in the Python shell.
 
     monitoring_thread.stop()
 
+Changelog
+---------
+
+- v2.0.7: Start changelog, fix crash when line number is not known.
+
+New Releases
+------------
+
+To release a new version:
+
+1. Edit the ``README.md`` file in the Changelog Section and add the changes.
+
+   .. code:: bash
+
+       git add README.md
+       git commit -m"Modify changelog for release"
+       git push
+
+2. Create a tag for the version.
+
+   .. code:: bash
+
+       git tag v2.0.7
+       git push origin v2.0.7
+
+3. Notify solved issues about the release.
 
 
 Further Reading
